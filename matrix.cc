@@ -40,7 +40,11 @@ int kbhit(void)
     tv.tv_sec = tv.tv_usec = 0;
     i = select(1, &fds, NULL, NULL, &tv);
     if (i == -1) return 0;
-    if (FD_ISSET(STDIN_FILENO, &fds)) return 1;
+    if (FD_ISSET(STDIN_FILENO, &fds))
+	{
+		getch();
+		return 1;
+	}
     return 0; 
 }
 
