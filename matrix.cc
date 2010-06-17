@@ -1,5 +1,4 @@
 //matrix - simple matrix animation using ncurses lib
-//Copyright (C) 2007  Hean Kuan Ong ( mysurface[at]gmail.com )
 //
 //This program is free software; you can redistribute it and/or
 //modify it under the terms of the GNU General Public License
@@ -181,6 +180,7 @@ void PrintHelp()
     printf("       -c [1-7]     Color value from 1 to 7, default is 2\n");
     printf("       -t [string]  Text heading for each flow string\n");
     printf("       -s [1-9]     The flow speed, 1 fastest, 9 slowest\n");
+	printf("       -d [0+]      Sleep delay in microseconds\n");
     printf("       -l [1-50]    Default have 25 flow strings, you can add more\n");
     printf("\n");
     printf("       --version    Print out the version\n");
@@ -203,6 +203,7 @@ int main(int argc, char * argv[])
     struct timeval tv;
     char text[100];
     int delay=3;
+	int sleep = 10000 - 1;
     int morelines=0;
 
     initscr();     //in ncurses
@@ -259,6 +260,14 @@ int main(int argc, char * argv[])
                    delay=atoi(argv[a+2]);
            }        
        }
+	   if(strncmp(argv[a+1],"-d",2)==0)
+       {
+           if (argc>(a+2))
+           {
+               if (atoi(argv[a+2])>0)
+                   sleep=atoi(argv[a+2]);
+           }        
+       }
        if(strncmp(argv[a+1],"-t",2)==0)
        {
             if (argc>(a+2))
@@ -288,7 +297,7 @@ int main(int argc, char * argv[])
 
     while(!kbhit()) //will quit if detects key press.
     {
-        usleep(1);
+        usleep(sleep);
         if (CheckTimer(tv,delay*10000))
         {
             getmaxyx(stdscr,scrY,scrX);       //get screen resolution
