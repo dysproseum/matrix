@@ -1,0 +1,5 @@
+Matrix console application requires ncurses library
+
+Compile the source file with:
+
+g++ -o matrix{,.cc} -lncurses
